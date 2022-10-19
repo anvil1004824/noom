@@ -6,8 +6,8 @@ import express from "express";
 const app = express();
 
 app.set("view engine", "pug");
-app.set("views", __dirname + "/views");
-app.use("/public", express.static(__dirname + "/public"));
+app.set("views", process.cwd() + "/src/views");
+app.use("/public", express.static(process.cwd() + "/public"));
 app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
@@ -30,5 +30,7 @@ wsServer.on("connection", (socket) => {
   });
 });
 
+const PORT = process.env.PORT || 3000;
+
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
-httpServer.listen(3000, handleListen);
+httpServer.listen(PORT, handleListen);
