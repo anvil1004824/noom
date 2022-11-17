@@ -12,7 +12,9 @@ app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
 const httpServer = http.createServer(app);
-const wsServer = SocketIO(httpServer);
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, handleListen);
+const wsServer = SocketIO({ server: httpServer });
 
 wsServer.on("connection", (socket) => {
   socket.on("join_room", (roomName) => {
@@ -30,7 +32,4 @@ wsServer.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
-httpServer.listen(PORT, handleListen);
