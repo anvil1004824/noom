@@ -12,8 +12,6 @@ app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
 const httpServer = http.createServer(app);
-const PORT = process.env.PORT || 3000;
-httpServer.listen(PORT, handleListen);
 const wsServer = SocketIO({ server: httpServer });
 
 wsServer.on("connection", (socket) => {
@@ -31,5 +29,7 @@ wsServer.on("connection", (socket) => {
     socket.to(roomName).emit("ice", ice);
   });
 });
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, handleListen);
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
